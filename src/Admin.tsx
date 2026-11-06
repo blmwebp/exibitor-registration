@@ -84,7 +84,7 @@ export default function Admin() {
       const response = await adminRequest(auth, 'invitations', assignment);
       setNewId((await response.json()).id);
       setAssignment(empty);
-      await refresh(auth);
+      await Promise.all([refresh(auth), loadChoices()]);
     });
   }
 
@@ -125,11 +125,13 @@ export default function Admin() {
       {error && <p role="alert" className="alert mb-4">{error}</p>}
       {notice && <p role="status" className="mb-4">{notice}</p>}
       {!auth ? (
-        <form className="form-card p-6 max-w-lg grid gap-4" onSubmit={login}>
+        <div className="place-items-center grid px-4">
+        <form className="form-card grid w-full max-w-[380px] grid gap-5 p-6 sm:p-8" onSubmit={login}>
           <div className="field"><label htmlFor="admin-username">Username</label><input id="admin-username" name="username" autoComplete="username" required maxLength={80} /></div>
           <div className="field"><label htmlFor="admin-password">Password</label><input id="admin-password" name="password" type="password" autoComplete="current-password" required maxLength={200} /></div>
           <button className="submit" disabled={busy}>{busy ? 'Signing in…' : 'Sign in'}</button>
         </form>
+        </div>
       ) : (
         <>
           {role === 'admin' && <Management request={managementRequest} onOptionsChanged={loadChoices} />}
@@ -196,7 +198,7 @@ export default function Admin() {
                     void run(async () => {
                       await adminRequest(auth, 'invitations/revoke', { id: row.id });
                       if (newId === row.id) setNewId('');
-                      await refresh(auth);
+                      await Promise.all([refresh(auth), loadChoices()]);
                     });
                   }}>Revoke invitation</button>
                  

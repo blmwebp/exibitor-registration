@@ -46,9 +46,30 @@ export async function initializeDatabase(db) {
   `, [JSON.stringify(defaults)]);
 }
 
-export async function activeOptions(db) {
-  const choices = Object.fromEntries(Object.keys(options).map(kind => [kind, []]));
-  const { rows } = await db.query('SELECT kind, value FROM exhibitor_options WHERE active ORDER BY kind, length(value), value');
-  for (const { kind, value } of rows) choices[kind]?.push(value);
+export async function activeOptions(db, { includeAssigned = false } = {}) {
+  const choices = Object.fromEntries(
+    Object.keys(options).map(kind => [kind, []])
+  );
+
+  const { rows } = await db.query(`
+    SELECT o.kind, o.value
+    FROM exhibitor_options AS o
+    WHERE o.active
+      AND (
+        $1::boolean
+        OR o.kind <> 'stallNo'
+        OR NOT EXISTS (
+          SELECT 1
+          FROM invitations AS i
+          WHERE i.stall = o.value
+        )
+      )
+    ORDER BY o.kind, length(o.value), o.value
+  `, [includeAssigned]);
+
+  for (const { kind, value } of rows) {
+    choices[kind]?.push(value);
+  }
+
   return choices;
 }

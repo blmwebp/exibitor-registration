@@ -1,6 +1,6 @@
 # Exhibitor Registration
 
-A complete React + TypeScript + Tailwind CSS frontend with a Node.js + Express API and Gmail SMTP delivery through Nodemailer. Original uploaded AIFOM and Comp-Ny logos are included. AIFOM appears at the top-left under “Sponsored By”; Comp-Ny appears at the top-right.
+A complete React + TypeScript + Tailwind CSS frontend with a Node.js + Express API and Gmail SMTP delivery through Nodemailer. Original uploaded AIFOM and BHARAT Wellness logos are included. AIFOM appears at the top-left under “Sponsored By”; BHARAT Wellness appears at the top-right.
 
 ## Requirements
 
@@ -54,7 +54,7 @@ SMTP_PORT=465
 SMTP_SECURE=true
 SMTP_USER=your-account@gmail.com
 SMTP_PASS=your-app-password-without-spaces
-MAIL_FROM_NAME=Comp-Ny Exhibitor Registration
+MAIL_FROM_NAME=BHARAT Wellness Exhibitor Registration
 MAIL_TO=your-receiving-email@example.com
 ```
 
@@ -103,7 +103,7 @@ Keep `TRUST_PROXY_HOPS=0` for direct access. Behind exactly one trusted reverse 
 
 ```text
 exhibitor-registration/
-  public/assets/          Original AIFOM and Comp-Ny logos
+  public/assets/          Original AIFOM and BHARAT Wellness logos
   src/                    React TypeScript UI and Tailwind styles
   shared/form.js          Shared choices, labels and validation
   server/app.js           Express routes and request protections

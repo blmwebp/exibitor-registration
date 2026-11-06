@@ -1,6 +1,7 @@
 import Admin from './Admin';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { registrationSchema, completionSchema, options, labels, fieldErrors, assignmentKeys } from '../shared/form.js';
+import ImageGallery from './ImageGallery';
 type Values = Record<string, string | boolean>;
 const initial: Values = { interestedIn:'', boothType:'', boothSize:'',stallNo:'', businessNature:'', facia:'', GSTNumber:'', website:'', fullName:'', companyName:'', email:'', contactNumber:'', country:'', designation:'', city:'', specialRequirements:'', additionalMessage:'', consent:false, companyFax:'' };
 const optional = ['GSTNumber','website','specialRequirements','additionalMessage'];
@@ -132,16 +133,16 @@ function Registration() {
     <div className="header-brand header-company">
       <div className="header-brand-text">
         <span className="header-label">Connect with</span>
-        <strong>Comp-Ny</strong>
+        <strong>BHARAT Wellness</strong>
         <span className="header-description">
           Exhibitor registration
         </span>
       </div>
 
       <img
-        src="/assets/demo_logo.png"
-        alt="Comp-Ny"
-        className="header-company-logo"
+        src="/assets/event_logo.png"
+        alt="BHARAT Wellness"
+        className="header-company-logo mt-[-31px]"
       />
     </div>
   </div>
@@ -235,6 +236,51 @@ function Registration() {
         A few more details
         </legend><p className="section-caption">Let us know what would make your participation a success.</p><div className="grid gap-5 md:grid-cols-2">{field('specialRequirements','textarea','Power, equipment, location preferences or accessibility needs.')}{field('additionalMessage','textarea','Anything else you would like to share?')}</div></fieldset>
  <div className="honeypot" aria-hidden="true"><label htmlFor="companyFax">Leave this field empty</label><input id="companyFax" name="companyFax" value={String(values.companyFax)} onChange={e=>update('companyFax',e.target.value)} tabIndex={-1} autoComplete="off"/></div>
- <div className="form-bottom"><label className="consent" htmlFor="consent"><input id="consent" name="consent" type="checkbox" checked={!!values.consent} onChange={e=>update('consent',e.target.checked)} disabled={busy} aria-invalid={!!errors.consent} aria-describedby={errors.consent?'consent-error':undefined}/><span>I consent to being contacted by the organising team regarding my exhibitor enquiry and understand that the details provided will be used to process this request. <span className="required">*</span></span></label>{errors.consent&&<p id="consent-error" className="error">{errors.consent}</p>}{notice&&<p className="alert" role="alert">{notice}</p>}<div className="mt-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"><p className="text-xs leading-5 text-[#6c776e]">{invitationId ? 'Review your details before completing registration.' : 'This enquiry records your stall preference. Availability is subject to confirmation.'}</p><button className="submit" type="submit" disabled={busy || lookupBusy || (!invitationId && !optionsReady)}>{busy ? 'Submitting…' : invitationId ? 'Complete Registration' : 'Send Enquiry'}<span aria-hidden="true">↗</span></button></div><p role="status" className="sr-only">{busy?'Sending your enquiry. Please wait.':''}</p></div></form>}
- <footer className="py-7 text-center text-xs text-[#738075]">© {new Date().getFullYear()} Comp-Ny. Exhibitor enquiries.</footer></main></div>;
+ <div className="form-bottom">
+  <label className="consent" htmlFor="consent">
+    <input id="consent" name="consent" type="checkbox" checked={!!values.consent} 
+        onChange={e=>update('consent',e.target.checked)} 
+        disabled={busy} aria-invalid={!!errors.consent} 
+        aria-describedby={errors.consent?'consent-error':undefined}/>
+        <span>I consent to being contacted by the organising team regarding my exhibitor enquiry and understand that the details provided will be used to process this request. <span className="required">*</span></span>
+  </label>
+    {errors.consent&&<p id="consent-error" className="error">{errors.consent}</p>}{notice&&<p className="alert" role="alert">{notice}</p>}
+    <div className="mt-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <p className="text-xs leading-5 text-[#6c776e]">{invitationId ? 'Review your details before completing registration.' : 'This enquiry records your stall preference. Availability is subject to confirmation.'}</p>
+      <button className="submit" type="submit" disabled={busy || lookupBusy || (!invitationId && !optionsReady)}>{busy ? 'Submitting…' : invitationId ? 'Complete Registration' : 'Send Enquiry'}
+        <span aria-hidden="true">↗</span>
+      </button>
+    </div>
+    <p role="status" className="sr-only">{busy?'Sending your enquiry. Please wait.':''}</p>
+    </div>
+    <aside
+  aria-labelledby="exhibitor-guidelines"
+  className="mb-6 rounded-xl border border-[#d8e2d7] bg-[#f5f7f2] p-5 sm:p-6"
+>
+  <h2 id="exhibitor-guidelines" className="text-lg font-semibold text-[#153b28]">
+    Exhibitor Guidelines
+  </h2>
+
+  <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed">
+    <li>
+      <strong>Setup assistance:</strong> Exhibitors must arrange their own
+      labour for stall setup and dismantling.
+    </li>
+    <li>
+      <strong>Power limit:</strong> The maximum electrical load is 1 kW per stall.
+    </li>
+    <li>
+      <strong>Stall branding:</strong> To request branding, email your design to{' '}
+      <a
+        href="mailto:bebig@blmindia.com?subject=Stall%20Branding%20Design"
+        className="break-all font-semibold text-[#153b28] underline underline-offset-2"
+      >
+        bebig@blmindia.com
+      </a>.
+    </li>
+  </ul>
+</aside>
+  <ImageGallery />
+  </form>}
+ <footer className="py-7 text-center text-xs text-[#738075]">© {new Date().getFullYear()} BHARAT Wellness. Exhibitor enquiries.</footer></main></div>;
 }

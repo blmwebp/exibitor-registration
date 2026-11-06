@@ -269,6 +269,7 @@ legend span {font-size:11px;background:#edf2e6;color:#69845c;border-radius:7px;p
   .header-company-logo {
     width: 96px;
     height: 86px;
+    margin-top: 0px;
   }
 
   .header-brand-text strong {

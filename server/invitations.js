@@ -46,7 +46,7 @@ export function installInvitations(app, { config, db, jsonRequest, sendRegistrat
     if (!parsed.success) return res.status(400).json({ message: 'Select all four assignment details.' });
     const id = 'EXH-' + randomBytes(12).toString('hex').toUpperCase();
     const assignment = parsed.data;
-    const choices = await activeOptions(db);
+    const choices = await activeOptions(db, { includeAssigned: true });
     if (!Object.entries(assignment).every(([kind, value]) => choices[kind].includes(value))) {
       return res.status(400).json({ message: 'Select currently active options. Refresh the dashboard for updated choices.' });
     }
